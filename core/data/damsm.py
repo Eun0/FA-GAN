@@ -28,9 +28,9 @@ class DAMSMDataset(Dataset):
         self.max_caption_length = max_caption_length
 
         # Load preprocessed data.
-        x = pickle.load(open(os.path.join(data_root, 'captions.pickle'),'rb'))
+        x = pickle.load(open(os.path.join(data_root, "captions.pickle"),"rb"))
         self.image_dir = os.path.join(data_root, f"images")
-        self.filenames = pickle.load(open(os.path.join(data_root,f"{split}/filenames.pickle"),'rb'))
+        self.filenames = pickle.load(open(os.path.join(data_root,f"{split}/filenames.pickle"),"rb"))
         self.i2w = x[2]
         self.w2i = x[3]
         self.damsm_tokens = x[0] if split == "train" else x[1]
