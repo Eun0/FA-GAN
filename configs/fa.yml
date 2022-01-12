@@ -1,0 +1,38 @@
+DATA:
+  ROOT: "datasets/coco"
+  IMAGE_CROP_SIZE: 256
+  MAX_CAPTION_LENGTH: 18
+
+TRAIN:
+  BATCH_SIZE: 24
+  MAX_EPOCH: 120
+
+TEXT_ENCODER:
+  NAME: "damsm"
+  DIR: "datasets/DAMSMencoders/text_encoder100.pth"
+  EMBEDDING_SIZE: 256
+  FROZEN: True
+
+GENERATOR:
+  NAME: "df"
+  NOISE_SIZE: 100
+  FEATURE_SIZE: 32
+
+DISCRIMINATOR:
+  NAME: "df"
+  FEATURE_SIZE: 32
+  DECODER: True
+
+GAN_LOSS:
+  D_LOSS_COMPONENT: "cond_logit,img_rec"
+  G_LOSS_COMPONENT: "cond_logit,img_fa"
+  GP: "magp"
+  FA_COEFF: 1.
+
+OPTIM:
+  G:
+    LR: 0.0001
+    BETAS: [0.0, 0.9]
+  D:
+    LR: 0.0004
+    BETAS: [0.0, 0.9]
