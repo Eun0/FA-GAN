@@ -200,16 +200,16 @@ def main(_A:argparse.Namespace):
                 for key in g_loss_dict:
                     log += f'{key}: {g_loss_dict[key].detach():.3f} '
 
-                if rec is not None:
-                    vutils.save_image(rec.data, f'rec.png', normalize=True, scale_each=True)
 
                 if _A.config == "configs/debug.yml":
                     vutils.save_image(fakes.data, f'fake.png', normalize=True, scale_each=True)
                     vutils.save_image(batch["image"].data, f"real.png", normalize=True, scale_each=True)
+                    if rec is not None:
+                        vutils.save_image(rec.data, f'rec.png', normalize=True, scale_each=True)
                 if _A.logging == "tb":
                     logger.info(log)
-                    tensorboard_writer.add_scalars("D", d_loss_dict, step)
-                    tensorboard_writer.add_scalars("G", g_loss_dict, step)
+                    #tensorboard_writer.add_scalars("D", d_loss_dict, step)
+                    #tensorboard_writer.add_scalars("G", g_loss_dict, step)
                 else:
                     logger.bind(loss=True).info(log)
 
@@ -220,6 +220,8 @@ def main(_A:argparse.Namespace):
             checkpoint_manager.step(epoch)
             netG_ema.eval(), netD.eval()
             vutils.save_image(fakes.data, os.path.join(_A.save_dir, f'{epoch}.png'), normalize=True, scale_each=True, nrow=8)
+            if rec is not None:
+                vutils.save_image(rec.data, f'rec.png', normalize=True, scale_each=True)
 
 if __name__ == "__main__":
     _A = parse_args()
