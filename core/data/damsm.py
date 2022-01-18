@@ -9,6 +9,9 @@ import numpy as np
 
 from torchvision import transforms
 
+def id2word(i2w_voca, sent):
+    return " ".join([i2w_voca[int(id)] for id in sent]) 
+
 class DAMSMDataset(Dataset):
     r"""
     A PyTorch dataset to read MS-COCO14 dataset 
