@@ -50,7 +50,7 @@ class CheckpointManager():
                     logger.info(f"{key} is None")
                     continue
                 logger.info(f"Loading {key} from {checkpoint_path}")
-                self.checkpointables[key].load_state_dict[checkpoint[key]]
+                self.checkpointables[key].load_state_dict(checkpoint[key])
                 is_loaded[key] = True
             else:
                 logger.info(f"{key} not found in 'checkpointables'.")

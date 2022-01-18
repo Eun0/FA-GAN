@@ -129,6 +129,7 @@ def main(_A:argparse.Namespace):
     # Load checkpoint to resume training if specified.
     if _A.resume_from is not None:
         start_epoch = CheckpointManager(
+            _A.save_dir,
             netG=netG, netD=netD, optG=optG, optD=optD, netG_ema=netG_ema,
         ).load(_A.resume_from)
     else:
@@ -168,6 +169,7 @@ def main(_A:argparse.Namespace):
             sent_embs = gan_loss.get_sent_embs(batch, text_encoder)
             fakes = netG(z, sent_embs)
 
+            netD.requires_grad_(True)
             d_loss_dict, rec = gan_loss.compute_d_loss(batch["image"], sent_embs, fakes, netD) 
             errD = gan_loss.accumulate_loss(d_loss_dict)
 
@@ -182,6 +184,7 @@ def main(_A:argparse.Namespace):
                 optD.step()
 
             # Train Generator
+            netD.requires_grad_(False)
             g_loss_dict = gan_loss.compute_g_loss(batch["image"], sent_embs, fakes, netD)
             errG = gan_loss.accumulate_loss(g_loss_dict) 
 
