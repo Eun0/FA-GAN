@@ -110,7 +110,7 @@ def main(_A:argparse.Namespace):
     if _A.resume_from is not None:
         start_epoch = CheckpointManager(
             _A.save_dir,
-            netG=netG_ema,
+            netG_ema=netG_ema,
         ).load(_A.resume_from)
         netG_ema.requires_grad_(False)
         netG_ema.eval()
